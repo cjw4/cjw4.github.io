@@ -1,0 +1,136 @@
+---
+const languages = [
+  { code: "en", label: "EN" },
+  { code: "de", label: "DE" },
+  { code: "fr", label: "FR" },
+];
+---
+
+<div class="lang-selector">
+  <button class="lang-btn" aria-haspopup="listbox" aria-expanded="false">
+    <span class="lang-current">EN</span>
+    <svg class="lang-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <ul class="lang-dropdown" role="listbox">
+    {languages.map(lang => (
+      <li role="option" data-lang={lang.code} class="lang-option">
+        {lang.label}
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .lang-selector {
+    position: fixed;
+    top: 1%;
+    right: 1%;
+    z-index: 200;
+    font-family: inherit;
+  }
+
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: #f7f7f5;
+    border: none;
+    border-radius: 8px;
+    padding: 0.45em 0.8em;
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: inherit;
+    color: #333;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 0 -2px 4px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.2s;
+  }
+
+  .lang-btn:hover {
+    background-color: #1f5f6e;
+    color: #fff;
+  }
+
+  .lang-chevron {
+    transition: transform 0.2s;
+  }
+
+  .lang-selector.open .lang-chevron {
+    transform: rotate(180deg);
+  }
+
+  .lang-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background-color: #f7f7f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 0 -2px 4px rgba(0, 0, 0, 0.06);
+    list-style: none;
+    margin: 0;
+    padding: 0.3rem;
+    min-width: 60px;
+  }
+
+  .lang-selector.open .lang-dropdown {
+    display: block;
+  }
+
+  .lang-option {
+    padding: 0.4em 0.8em;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .lang-option:hover {
+    background-color: #1f5f6e;
+    color: #fff;
+  }
+
+  .lang-option.active {
+    color: #378a9c;
+  }
+</style>
+
+<script>
+  const nav = document.querySelector('nav') as HTMLElement;
+  const selector = document.querySelector('.lang-selector') as HTMLElement;
+
+  if (nav) {
+    const btn = selector.querySelector('.lang-btn') as HTMLButtonElement;
+    btn.style.height = `${nav.offsetHeight}px`;
+  }
+  const btn = selector.querySelector('.lang-btn') as HTMLButtonElement;
+  const current = selector.querySelector('.lang-current') as HTMLElement;
+  const options = selector.querySelectorAll('.lang-option');
+
+  btn.addEventListener('click', () => {
+    const isOpen = selector.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      const lang = (option as HTMLElement).dataset.lang!;
+      current.textContent = (option as HTMLElement).textContent!.trim();
+      options.forEach(o => o.classList.remove('active'));
+      option.classList.add('active');
+      selector.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!selector.contains(e.target as Node)) {
+      selector.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+</script>

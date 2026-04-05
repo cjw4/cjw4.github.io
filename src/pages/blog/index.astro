@@ -1,0 +1,131 @@
+---
+import BasicLayout from "../../layouts/BasicLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<BasicLayout title="Blog">
+  <div class="blog">
+    <h1>Blog</h1>
+    {posts.length === 0 ? (
+      <p class="empty">No posts yet. Check back soon!</p>
+    ) : (
+      <ul class="post-list">
+        {posts.map(post => (
+          <li>
+            <a href={`/blog/${post.id}`} class="post-card">
+              <div class="post-card-meta">
+                <time datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <ul class="tags">
+                    {post.data.tags.map(tag => <li class="tag">{tag}</li>)}
+                  </ul>
+                )}
+              </div>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.description}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</BasicLayout>
+
+<style>
+  .blog {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    font-family: inherit;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: #333;
+    margin: 0 0 2rem;
+  }
+
+  .empty {
+    color: #888;
+    font-size: 1.1rem;
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .post-card {
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .post-card:hover {
+    border-color: #378a9c;
+    box-shadow: 0 4px 16px rgba(55, 138, 156, 0.1);
+  }
+
+  .post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  time {
+    font-size: 0.875rem;
+    color: #888;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    background-color: #e5e5e5;
+    color: #555;
+    padding: 0.2em 0.65em;
+    border-radius: 999px;
+  }
+
+  .post-card h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 0.4rem;
+    color: #222;
+  }
+
+  .post-card p {
+    font-size: 0.975rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+  }
+</style>

@@ -1,0 +1,141 @@
+---
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav>
+  <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul>
+    {navLinks.map(link => (
+      <li>
+        <a
+          href={link.href}
+          class={currentPath === link.href ? "active" : ""}
+        >{link.label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  nav {
+    background-color: #f7f7f5;
+    font-family: inherit;
+    position: sticky;
+    top: 1%;
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 0 -2px 4px rgba(0, 0, 0, 0.06);
+    width: fit-content;
+    margin: 1% auto;
+    padding: 0 1rem;
+    border-radius: 8px;
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1.5rem 1rem;
+    margin: 0 auto;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .hamburger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    display: block;
+    padding: 0.6em 1em;
+    margin: 0.6em 0.3em;
+    font-size: 1.1em;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 8px;
+  }
+
+  a:hover,
+  a.active {
+    background-color: #1f5f6e;
+    color: #fff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
+  }
+
+  @media (max-width: 600px) {
+    .hamburger {
+      display: flex;
+    }
+
+    ul {
+      flex-direction: column;
+      align-items: stretch;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease;
+    }
+
+    nav[data-open] ul {
+      max-height: 400px;
+    }
+
+    a {
+      margin: 0.3em 0.75em;
+    }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector('.hamburger') as HTMLButtonElement;
+  const nav = btn.closest('nav')!;
+
+  btn.addEventListener('click', () => {
+    const isOpen = nav.hasAttribute('data-open');
+    if (isOpen) {
+      nav.removeAttribute('data-open');
+      btn.setAttribute('aria-expanded', 'false');
+    } else {
+      nav.setAttribute('data-open', '');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+</script>

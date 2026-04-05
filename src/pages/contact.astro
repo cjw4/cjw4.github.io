@@ -1,0 +1,151 @@
+---
+import BasicLayout from "../layouts/BasicLayout.astro";
+---
+
+<BasicLayout title="Contact">
+  <div class="contact">
+    
+    <form
+      class="contact-form"
+      action="https://formspree.io/f/mykbyedn"
+      method="POST"
+    >
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Your name"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="your@email.com"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="subject">Subject</label>
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          placeholder="What's this about?"
+        />
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="6"
+          placeholder="Your message..."
+          required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+  </div>
+</BasicLayout>
+
+<style>
+  .contact {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    font-family: inherit;
+  }
+
+  .contact-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-header h1 {
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: #333;
+    margin: 0 0 0.75rem;
+  }
+
+  .contact-header p {
+    font-size: 1.05rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #444;
+  }
+
+  input,
+  textarea {
+    padding: 0.65em 0.9em;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: #378a9c;
+    box-shadow: 0 0 0 3px rgba(55, 138, 156, 0.15);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .submit-btn {
+    align-self: flex-start;
+    padding: 0.7em 2em;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 500;
+    background-color: #378a9c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .submit-btn:hover {
+    background-color: #2d7389;
+    box-shadow: 0 2px 8px rgba(55, 138, 156, 0.3);
+  }
+</style>

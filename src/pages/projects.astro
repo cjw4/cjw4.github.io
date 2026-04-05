@@ -1,0 +1,47 @@
+---
+import BasicLayout from "../layouts/BasicLayout.astro";
+---
+
+<BasicLayout title="Projects">
+  <section class="hero">
+    <h1>Projects</h1>
+    <p class="subtext">Something is brewing — check back soon.</p>
+  </section>
+</BasicLayout>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - var(--nav-height, 60px));
+    text-align: center;
+    font-family: inherit;
+    color: #333;
+    gap: 1rem;
+  }
+
+  h1 {
+    font-size: 3.2rem;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .subtext {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #777;
+    margin: 0;
+  }
+</style>
+
+<script>
+  const nav = document.querySelector("nav");
+  if (nav) {
+    document.documentElement.style.setProperty(
+      "--nav-height",
+      `${nav.getBoundingClientRect().bottom}px`,
+    );
+  }
+</script>
